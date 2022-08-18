@@ -8,14 +8,33 @@ using System.Threading;
 
 namespace VacanciesCount
 {
-    class Program
+    public class Program
     {
+        protected static string url = "https://cz.careers.veeam.com/vacancies";
+        public static IWebDriver driver;
+        public enum Department
+        {
+            AllDepartments,
+            CorporateInformationSystems,
+            QualityAssurance,
+            ResearchDevelopment,
+            TechnicalCustomerSupport,
+            IT,
+            Other,
+            HR,
+            TechnicalDocumentationDevelopment,
+            ProductManagement,
+            Finance,
+            Facilities,
+            Purchasing,
+            Legal
+        }
         public static void Main(string[] args)
         {
             string department = "Research & Development";
             string language = "English";
-            IWebDriver driver = new ChromeDriver();
-            driver.Navigate().GoToUrl("https://cz.careers.veeam.com/vacancies");
+            driver = new ChromeDriver();
+            driver.Navigate().GoToUrl(url);
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().PageLoad.Add(TimeSpan.FromSeconds(10));
             IJavaScriptExecutor Js1 = driver as IJavaScriptExecutor;
@@ -23,7 +42,6 @@ namespace VacanciesCount
             SetDeparment(driver, department);
             SetLanguage(driver, language);
             Console.WriteLine(GetCountVacancies(driver)); 
-
         }
 
         public static int GetCountVacancies(IWebDriver driver)
@@ -39,7 +57,7 @@ namespace VacanciesCount
             elements[0].Click();
             driver.Manage().Timeouts().ImplicitWait.Add(TimeSpan.FromSeconds(15));
             var selectDepartment = driver.FindElement(By.XPath(
-                "//*[@id=\"root\"]/div/div[1]/div/div/div[1]/div/div[2]/div/div/div/a[4]"));
+                $"//*[@id=\"root\"]/div/div[1]/div/div/div[1]/div/div[2]/div/div/div/a[{((int)Department.ResearchDevelopment)}]"));
             selectDepartment.Click();
         }
 
