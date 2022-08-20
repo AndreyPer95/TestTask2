@@ -1,30 +1,18 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
 
 namespace VacanciesCount
 {
     [TestFixture]
-    public class Tests:Program
+    public class Tests
     {
-        [Test]
-
-        [TestCase(13)]
-        
-        public void AssertCount(int expectedCount)
+        [TestCase("Research & Development", "English", 13)]
+        [TestCase("Corporate Information Systems", "English", 14)]
+        public void AssertCount(string department, string language, int expectedCount)
         {
-            string department = "Research & Development";
-            string language = "English";
-            var driver = new ChromeDriver();
-            driver.Navigate().GoToUrl(url);
-            driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().PageLoad.Add(TimeSpan.FromSeconds(10));
-            IJavaScriptExecutor Js1 = driver;
-            Js1.ExecuteScript("window.scrollBy(0,300);");
-            SetDeparment(driver);
-            SetLanguage(driver, language);
-            var actualResult = GetCountVacancies(driver);
+            var searcher = new VacancySearcher();
+            searcher.SetDeparment(department);
+            searcher.SetLanguage(language);
+            var actualResult = searcher.GetVacanciesCount();
             Assert.AreEqual(expectedCount,actualResult);
         }
         
