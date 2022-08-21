@@ -9,26 +9,33 @@ namespace VacanciesCount
     public class VacancySearcher
     {
         public const string URL = "https://cz.careers.veeam.com/vacancies";
-        
+
         private IWebDriver driver = new ChromeDriver();
-        
+
         public static string[] departments = new string[]
-            {
-                "All Departments",
-                "Corporate Information Systems",
-                "Quality Assurance",
-                "Research & Development",
-                "TechnicalCustomerSupport",
-                "IT",
-                "Other",
-                "HR",
-                "TechnicalDocumentationDevelopment",
-                "ProductManagement",
-                "Finance",
-                "Facilities",
-                "Purchasing",
-                "Legal"
-            };
+        {
+            "All Departments",
+            "Corporate Information Systems",
+            "Quality Assurance",
+            "Research & Development",
+            "TechnicalCustomerSupport",
+            "IT",
+            "Other",
+            "HR",
+            "TechnicalDocumentationDevelopment",
+            "ProductManagement",
+            "Finance",
+            "Facilities",
+            "Purchasing",
+            "Legal"
+        };
+        public static string[] languages = new string[]
+        {
+            "English",
+            "Russian",
+            "French",
+            "German"
+        };
 
         public VacancySearcher()
         {
@@ -41,7 +48,7 @@ namespace VacanciesCount
 
         public int GetVacanciesCount()
         {
-            int count = driver.FindElement(By.XPath("//*[@id=\"root\"]/div/div[1]/div/div/div[2]/div"))
+            var count = driver.FindElement(By.XPath("//*[@id=\"root\"]/div/div[1]/div/div/div[2]/div"))
                 .FindElements(By.TagName("h3")).Count();
             return count;
         }
@@ -62,15 +69,21 @@ namespace VacanciesCount
             var elements = driver.FindElements(By.Id("sl"));
             elements[1].Click();
             driver.Manage().Timeouts().ImplicitWait.Add(TimeSpan.FromSeconds(15));
-            IWebElement selectLanguage = driver.FindElement(By.Id("lang-option-0"));
+            var languageIndex = GetLanguageIndex(language);
+            var selectLanguage = driver.FindElement(By.Id($"lang-option-{languageIndex}"));
             selectLanguage.Click();
             elements[1].Click();
         }
 
         private int GetDepartmentIndex(string department)
         {
-            //нумерация отделов на сайте идёт с 1
+            //нумерация отделов на сайте начинается с 1
             return Array.IndexOf(departments, department) + 1;
+        }
+
+        private int GetLanguageIndex(string language)
+        {
+            return Array.IndexOf(languages, language);
         }
     }
 }

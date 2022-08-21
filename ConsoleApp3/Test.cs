@@ -6,7 +6,7 @@ namespace VacanciesCount
     public class Tests
     {
         [TestCase("Research & Development", "English", 13)]
-        [TestCase("Corporate Information Systems", "English", 14)]
+        [TestCase("Corporate Information Systems", "German", 0)]
         public void AssertCount(string department, string language, int expectedCount)
         {
             var searcher = new VacancySearcher();
