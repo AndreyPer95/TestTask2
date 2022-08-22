@@ -48,9 +48,10 @@ namespace VacanciesCount
 
         public int GetVacanciesCount()
         {
-            var count = driver.FindElement(By.XPath("//*[@id=\"root\"]/div/div[1]/div/div/div[2]/div"))
-                .FindElements(By.TagName("h3")).Count();
-            return count;
+            var elements = driver.FindElement(By.XPath("//*[@id=\"root\"]/div/div[1]/div/div/div[2]/div"))
+                .FindElements(By.TagName("h3"));
+            if (String.Equals(elements[0].Text, "No matches were found for your query :(")) return 0;
+            return elements.Count();
         }
 
         public void SetDeparment(string department)
