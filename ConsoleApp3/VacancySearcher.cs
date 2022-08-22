@@ -10,7 +10,7 @@ namespace VacanciesCount
     {
         public const string URL = "https://cz.careers.veeam.com/vacancies";
 
-        private IWebDriver driver = new ChromeDriver();
+        public IWebDriver driver = new ChromeDriver();
 
         public static string[] departments = new string[]
         {

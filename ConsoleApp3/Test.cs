@@ -14,7 +14,7 @@ namespace VacanciesCount
             searcher.SetLanguage(language);
             var actualResult = searcher.GetVacanciesCount();
             Assert.AreEqual(expectedCount,actualResult);
+            searcher.driver.Close();
         }
-        
     }
 }
